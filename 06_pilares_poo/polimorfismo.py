@@ -29,7 +29,6 @@ class Animal:
         """Cada hija va a SOBRESCRIBIR este metodo."""
         print(f"{self.nombre} hace un sonido generico")
 
-
 class Perro(Animal):
     def hablar(self):
         print(f"{self.nombre}: Guau!")
