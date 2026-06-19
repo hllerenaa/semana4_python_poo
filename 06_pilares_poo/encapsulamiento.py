@@ -23,19 +23,6 @@ class CuentaSinProteccion:
         self.titular = titular
         self.saldo = saldo
 
-# OBSERVACION: cualquiera puede cambiar el saldo sin control.
-print("=== Sin encapsulamiento ===")
-cuenta = CuentaSinProteccion("Hector", 500)
-cuenta.saldo = -10000          # esto es legal y es un PROBLEMA
-print(f"Saldo: {cuenta.saldo}") # -10000 (un saldo negativo absurdo)
-
-# OBSERVACION DIDACTICA: en la vida real, un saldo bancario nunca puede ser
-# tan negativo. Hay que poner limites.
-
-
-# -----------------------------------------------------------------------------
-# EJEMPLO 2  -  CON encapsulamiento  (la version protegida)
-# -----------------------------------------------------------------------------
 
 class CuentaProtegida:
     """Esta clase SI usa encapsulamiento."""
@@ -72,36 +59,6 @@ class CuentaProtegida:
         self.__saldo -= monto
 
 
-print("\n=== Con encapsulamiento ===")
-cuenta = CuentaProtegida("Hector", 500)
-cuenta.depositar(200)
-print(f"Despues de depositar 200: {cuenta.saldo}")  # 700
-
-cuenta.retirar(300)
-print(f"Despues de retirar 300:   {cuenta.saldo}")  # 400
-
-# OBSERVACION: ahora intentos invalidos lanzan errores.
-print("\nIntentos invalidos:")
-try:
-    cuenta.saldo = -50
-except ValueError as e:
-    print(f"  Bloqueado: {e}")
-
-try:
-    cuenta.retirar(10000)
-except ValueError as e:
-    print(f"  Bloqueado: {e}")
-
-try:
-    cuenta.depositar(-100)
-except ValueError as e:
-    print(f"  Bloqueado: {e}")
-
-
-# -----------------------------------------------------------------------------
-# EJEMPLO 3  -  Encapsulamiento aplicado a seguridad de red
-# -----------------------------------------------------------------------------
-
 class ServidorWeb:
     """Servidor con clave de admin protegida."""
 
@@ -130,25 +87,3 @@ class ServidorWeb:
         """True si hubo 3 intentos fallidos."""
         return self.__intentos_fallidos >= 3
 
-
-print("\n=== Encapsulamiento en seguridad ===")
-servidor = ServidorWeb("ister.edu.ec", "Pass2026!")
-print(f"Clave visible: {servidor.clave_visible}")  # Pa******
-
-print(servidor.autenticar("admin"))     # False
-print(servidor.autenticar("Pass2026!")) # True
-print(f"Bloqueado?: {servidor.esta_bloqueado()}")  # False
-
-# OBSERVACION DIDACTICA: si alguien quiere imprimir la clave directamente,
-# no podra. Solo puede usar los metodos que YO defini.
-
-
-# =============================================================================
-#  PARA PRACTICAR
-# =============================================================================
-# Crea una clase Termostato que tenga:
-#   - temperatura: atributo privado
-#   - @property que permita leer la temperatura
-#   - @setter que valide que la temperatura este entre -50 y 100 grados
-#   - Si esta fuera de rango, lanzar ValueError
-# =============================================================================
